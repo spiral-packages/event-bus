@@ -1,24 +1,25 @@
 {
-  "name": ":vendor_slug/:package_slug",
-  "description": ":package_description",
+  "name": "spiral-packages/event-bus",
+  "description": "This is my package event-bus",
   "keywords": [
-    ":vendor_name",
+    "spiral-packages",
     "spiral",
-    ":package_slug"
+    "event-bus"
   ],
-  "homepage": "https://github.com/:vendor_slug/:package_slug",
+  "homepage": "https://github.com/spiral-packages/event-bus",
   "license": "MIT",
   "authors": [
     {
-      "name": ":author_name",
-      "email": "author@domain.com",
+      "name": "butschster",
+      "email": "butschster@gmail.com",
       "role": "Developer"
     }
   ],
   "require": {
     "php": "^8.0",
+    "symfony/event-dispatcher": "^6.0",
+    "spiral/queue": "^2.9",
     "spiral/boot": "^2.8",
-    "spiral/console": "^2.8",
     "spiral/core": "^2.8"
   },
   "require-dev": {
@@ -28,12 +29,12 @@
   },
   "autoload": {
     "psr-4": {
-      "VendorName\\Skeleton\\": "src"
+      "Spiral\\EventBus\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "VendorName\\Skeleton\\Tests\\": "tests/src"
+      "Spiral\\EventBus\\Tests\\": "tests/src"
     }
   },
   "scripts": {
@@ -46,7 +47,7 @@
   "extra": {
     "spiral": {
       "bootloaders": [
-        "VendorName\\Skeleton\\SkeletonBootloader"
+        "Spiral\\EventBus\\EventBusBootloader"
       ]
     }
   },
