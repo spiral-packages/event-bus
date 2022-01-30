@@ -7,6 +7,7 @@ namespace Spiral\EventBus;
 use Spiral\Boot\Bootloader\Bootloader;
 use Spiral\Core\Container;
 use Spiral\Queue\QueueConnectionProviderInterface;
+use Spiral\Queue\ShouldBeQueuedInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
