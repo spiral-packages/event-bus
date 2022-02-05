@@ -2,9 +2,21 @@
 
 namespace Spiral\EventBus\Tests;
 
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use Spiral\Boot\Bootloader\ConfigurationBootloader;
+use Spiral\EventBus\Bootloader\EventBusBootloader;
 
-class TestCase extends \PHPUnit\Framework\TestCase
+abstract class TestCase extends \Spiral\Testing\TestCase
 {
-    use MockeryPHPUnitIntegration;
+    public function rootDirectory(): string
+    {
+        return __DIR__.'/../';
+    }
+
+    public function defineBootloaders(): array
+    {
+        return [
+            ConfigurationBootloader::class,
+            EventBusBootloader::class,
+        ];
+    }
 }

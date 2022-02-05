@@ -9,5 +9,13 @@ use Spiral\Core\InjectableConfig;
 final class EventBusConfig extends InjectableConfig
 {
     public const CONFIG = 'event-bus';
-    protected $config = [];
+
+    protected $config = [
+        'queueConnection' => null,
+    ];
+
+    public function getQueueConnection(): ?string
+    {
+        return $this->config['queueConnection'] ?? null;
+    }
 }

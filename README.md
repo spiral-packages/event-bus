@@ -21,21 +21,13 @@ You can install the package via composer:
 composer require spiral-packages/event-bus
 ```
 
-Add a new alias in `queue` config and associate it with desired queue connection:
-
-```php
-'aliases' => [
-    'events' => 'sync',
-],
-```
-
 ## Usage
 
 Create a new bootloader, for example, `EventsBootloader`
 
 ```php
 use Psr\Log\LoggerInterface;
-use Spiral\EventBus\EventBusBootloader;
+use Spiral\EventBus\Bootloader\EventBusBootloader;
 
 final class EventsBootloader extends EventBusBootloader
 {
@@ -65,6 +57,7 @@ class UserDeleted
 ```
 
 #### Listener example
+
 ```php
 class DeleteUserComments 
 {
@@ -74,6 +67,15 @@ class DeleteUserComments
     {
         $this->service->deleteCommentsForUser($event->name);
     }
+}
+```
+
+If you want to push listener to queue, you can add `Spiral\EventBus\QueueableInterface`
+
+```php
+class DeleteUserComments implements \Spiral\EventBus\QueueableInterface
+{
+    // ...
 }
 ```
 
