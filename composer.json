@@ -50,7 +50,7 @@
   "extra": {
     "spiral": {
       "bootloaders": [
-        "Spiral\\EventBus\\EventBusBootloader"
+        "Spiral\\EventBus\\Bootloader\\EventBusBootloader"
       ]
     }
   },
