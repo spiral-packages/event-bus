@@ -24,7 +24,7 @@
     "spiral/queue": "^2.9"
   },
   "require-dev": {
-    "spiral/testing": "dev-master",
+    "spiral/testing": "^1.0",
     "mockery/mockery": "^1.5",
     "vimeo/psalm": "^4.9",
     "phpunit/phpunit": "^9.5"
