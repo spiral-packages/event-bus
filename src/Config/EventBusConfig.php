@@ -12,10 +12,22 @@ final class EventBusConfig extends InjectableConfig
 
     protected $config = [
         'queueConnection' => null,
+        'discoverListeners' => true,
+        'listeners' => [],
     ];
+
+    public function getListeners(): array
+    {
+        return (array)($this->config['listeners'] ?? []);
+    }
 
     public function getQueueConnection(): ?string
     {
         return $this->config['queueConnection'] ?? null;
+    }
+
+    public function discoverListeners(): bool
+    {
+        return (bool)($this->config['discoverListeners'] ?? true);
     }
 }
