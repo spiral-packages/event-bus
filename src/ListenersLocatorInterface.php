@@ -7,7 +7,7 @@ namespace Spiral\EventBus;
 interface ListenersLocatorInterface
 {
     /**
-     * @return array<class-string, array<class-string, non-empty-string>>
+     * @return array<class-string, array<array{0: class-string, 1: non-empty-string}>>
      */
-    public function getListeners(): iterable;
+    public function getListeners(): array;
 }

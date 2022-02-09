@@ -29,7 +29,6 @@
     "spiral/testing": "^1.0",
     "mockery/mockery": "^1.5",
     "vimeo/psalm": "^4.9",
-    "doctrine/inflector": "^2.0",
     "phpunit/phpunit": "^9.5"
   },
   "autoload": {

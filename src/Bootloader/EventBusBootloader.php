@@ -57,6 +57,9 @@ class EventBusBootloader extends Bootloader
         );
     }
 
+    /**
+     * @param EventDispatcher $dispatcher
+     */
     public function start(
         EventDispatcherInterface $dispatcher,
         ListenersLocatorInterface $listenersLocator,

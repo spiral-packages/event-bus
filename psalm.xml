@@ -17,5 +17,10 @@
                 <referencedClass name="JetBrains\PhpStorm\ExpectedValues" />
             </errorLevel>
         </UndefinedAttributeClass>
+        <RedundantCondition>
+            <errorLevel type="suppress">
+                <file name="src/Testing/FakeEventDispatcher.php" />
+            </errorLevel>
+        </RedundantCondition>
     </issueHandlers>
 </psalm>

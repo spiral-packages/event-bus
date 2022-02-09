@@ -11,6 +11,10 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 final class FakeEventDispatcher implements EventDispatcherInterface
 {
     private array $eventsToFake;
+
+    /**
+     * @var array<class-string, array<int|object, list<mixed>|non-empty-string>>
+     */
     private array $events = [];
 
     public function __construct(
@@ -23,6 +27,7 @@ final class FakeEventDispatcher implements EventDispatcherInterface
     public function assertListening(string $event, string $listener, string $method = 'handle'): void
     {
         foreach ($this->dispatcher->getListeners($event) as $listenerClosure) {
+            /** @var \Closure $listenerClosure */
             $actualListenerVariables = (new \ReflectionFunction($listenerClosure))
                 ->getStaticVariables();
 
@@ -63,9 +68,9 @@ final class FakeEventDispatcher implements EventDispatcherInterface
 
     public function assertDispatchedTimes($event, int $times = 1): void
     {
-        $count = $this->getDispatchedEvents($event);
+        $count = \count($this->getDispatchedEvents($event));
 
-        TestCase::assertCount(
+        TestCase::assertSame(
             $times,
             $count,
             \sprintf('The expected [%s] event was dispatched %d times instead of %d times.', $event, $count, $times)
@@ -138,13 +143,18 @@ final class FakeEventDispatcher implements EventDispatcherInterface
         return \in_array($event, $this->eventsToFake);
     }
 
+    /**
+     * @param class-string $event
+     * @param \Closure|null $callback
+     * @return list<class-string>
+     */
     private function getDispatchedEvents(string $event, \Closure $callback = null): array
     {
         if (! $this->hasDispatched($event)) {
             return [];
         }
 
-        $callback = $callback ?: static function () {
+        $callback = $callback ?? static function (object $event, string $eventName): bool {
             return true;
         };
 

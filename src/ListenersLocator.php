@@ -17,7 +17,7 @@ final class ListenersLocator implements ListenersLocatorInterface
     ) {
     }
 
-    public function getListeners(): iterable
+    public function getListeners(): array
     {
         $listen = [];
 
@@ -51,6 +51,7 @@ final class ListenersLocator implements ListenersLocatorInterface
                 continue;
             }
 
+            /** @var \ReflectionNamedType $type */
             $type = $parameter->getType();
 
             if ($type instanceof \ReflectionUnionType) {
