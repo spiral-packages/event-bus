@@ -82,20 +82,28 @@ If you are using listeners with attributes `'discoverListeners' = true`, you don
 registered automatically.
 
 ```php
+use Spiral\EventBus\Attribute\Listener;
+
 class DeleteUserComments 
 {
     public function __construct(private CommentService $service) {}
     
-    #[\Spiral\EventBus\Attribute\Listener]
+    #[Listener]
     public function handleDeletedUser(UserDeleted $event)
     {
         $this->service->deleteCommentsForUser($event->usernname);
     }
     
-    #[\Spiral\EventBus\Attribute\Listener]
+    #[Listener]
     public function handleCreatedUser(UserCreated $event)
     {
         $this->service->creaateUserProfile($event->usernname);
+    }
+    
+    #[Listener]
+    public function notifyAdmins(UserCreated|UserDeleted $event)
+    {
+        $this->service->notifyAdmins($event->usernname);
     }
 }
 ```
@@ -135,10 +143,42 @@ class UserService
 
 ## Testing
 
-
-
 ```bash
 composer test
+```
+
+If you are using [`spiral/testing`](https://github.com/spiral/testing) package in your application, you can additionally
+use trait `Spiral\EventBus\Testing\InteractsWithEvents` in your tests cases.
+
+```php
+class EventDispatcherTest extends TestCase
+{
+    use \Spiral\EventBus\Testing\InteractsWithEvents;
+
+    public function testDispatchEvent(): void
+    {
+        $events = $this->fakeEventDispatcher();
+    
+        $this->getDispatcher()->dispatch(new SimpleEvent());
+    
+        $events->assertListening(SimpleEvent::class, SimpleListener::class);
+        $events->assertListening(SimpleEvent::class, ListenerWithAttributes::class, 'methodA');
+        
+        $events->assertDispatched(SimpleEvent::class)
+        
+        $events->assertDispatched(SimpleEvent::class, function(SimpleEvent $event) {
+            return $event->someProperty === 'foo';
+        });
+
+        $events->assertDispatchedTimes(SimpleEvent::class, 10);
+        
+        $events->assertNotDispatched(AnotherSimpleEvent::class);
+        
+        $events->assertNotDispatched(AnotherSimpleEvent::class);
+        
+        $events->assertNothingDispatched();
+    }
+}
 ```
 
 ## Changelog
