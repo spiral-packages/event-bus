@@ -1,5 +1,6 @@
 # A simple observer pattern implementation based on symfony event handler (PSR-14 compatible)
 
+[![PHP](https://img.shields.io/packagist/php-v/spiral-packages/event-bus.svg?style=flat-square)](https://packagist.org/packages/spiral-packages/event-bus)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spiral-packages/event-bus.svg?style=flat-square)](https://packagist.org/packages/spiral-packages/event-bus)
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/spiral-packages/event-bus/run-tests?label=tests)](https://github.com/spiral-packages/event-bus/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/spiral-packages/event-bus.svg?style=flat-square)](https://packagist.org/packages/spiral-packages/event-bus)
