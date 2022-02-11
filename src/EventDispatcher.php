@@ -14,7 +14,7 @@ class EventDispatcher extends BaseEventDispatcher implements ListenerRegistryInt
         parent::__construct();
     }
 
-    public function addListener(string $event, callable|array|string $listener, int $priority = 0): void
+    public function addListener(string $eventName, callable|array|string $listener, int $priority = 0): void
     {
         if (\is_string($listener)) {
             $listener = $this->listenerFactory->createQueueable($listener);
@@ -22,6 +22,6 @@ class EventDispatcher extends BaseEventDispatcher implements ListenerRegistryInt
             $listener = $this->listenerFactory->createQueueable($listener[0], $listener[1]);
         }
 
-        parent::addListener($event, $listener, $priority);
+        parent::addListener($eventName, $listener, $priority);
     }
 }
