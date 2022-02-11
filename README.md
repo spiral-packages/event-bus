@@ -31,7 +31,7 @@ protected const LOAD = [
 ];
 ```
 
-> Note: if you are using [`spiral-packages/bootloaders-discover`](https://github.com/spiral-packages/bootloaders-discover)
+> Note: if you are using [`spiral-packages/discoverer`](https://github.com/spiral-packages/discoverer) package
 > , you don't need to register bootloader by yourself anymore.
 
 ## Usage
