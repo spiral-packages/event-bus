@@ -13,7 +13,7 @@ jobs:
       matrix:
         os: [ ubuntu-latest ]
         php: [ 8.0, 8.1 ]
-        stability: [ prefer-stable ]
+        stability: [ prefer-lowest, prefer-stable ]
 
     name: P${{ matrix.php }} - ${{ matrix.stability }} - ${{ matrix.os }}
 

@@ -7,7 +7,7 @@ use Spiral\EventBus\Tests\App\Listener\SimpleListener;
 
 return [
     'queueConnection' => 'test',
-    'discoverListeners' => true,
+    'discoverListeners' => env('EVENT_BUS_DISCOVER_LISTENERS', true),
     'listeners' => [
         SimpleEvent::class => [
             SimpleListener::class,

@@ -14,7 +14,7 @@ use Spiral\EventBus\Tests\App\Event\SimpleEvent;
 use Spiral\EventBus\Tests\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-final class EventBusBootloaderTest extends TestCase
+final class EventBusBootloaderWithDiscoveringListenersTest extends TestCase
 {
     public function testEventDispatcherContainer()
     {

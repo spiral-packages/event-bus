@@ -35,7 +35,8 @@ final class ListenersLocator implements ListenersLocatorInterface
                     }
 
                     foreach ($this->processListenerAttributes($method) as $event => $listener) {
-                        $listen[$event][] = $listener;
+                        $hash = $listener[0].'::'.$listener[1];
+                        $listen[$event][$hash] = $listener;
                     }
                 }
             }
