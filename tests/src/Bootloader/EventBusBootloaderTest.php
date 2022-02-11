@@ -6,6 +6,7 @@ namespace Spiral\EventBus\Tests\Bootloader;
 
 use Psr\EventDispatcher\EventDispatcherInterface as PsrEventDispatcherInterface;
 use Spiral\EventBus\EventDispatcher;
+use Spiral\EventBus\ListenerRegistryInterface;
 use Spiral\EventBus\ListenersLocator;
 use Spiral\EventBus\ListenersLocatorInterface;
 use Spiral\EventBus\Tests\App\Event\SimpleAnotherEvent;
@@ -38,6 +39,14 @@ final class EventBusBootloaderTest extends TestCase
         $this->assertContainerBoundAsSingleton(
             ListenersLocatorInterface::class,
             ListenersLocator::class
+        );
+    }
+
+    public function testListenerRegistryContainer()
+    {
+        $this->assertContainerBoundAsSingleton(
+            ListenerRegistryInterface::class,
+            EventDispatcher::class
         );
     }
 

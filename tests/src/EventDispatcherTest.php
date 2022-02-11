@@ -10,6 +10,7 @@ use Spiral\EventBus\Tests\App\Event\SimpleEvent;
 use Spiral\EventBus\Tests\App\Listener\ListenerWithAttributes;
 use Spiral\EventBus\Tests\App\Listener\QueueableListener;
 use Spiral\EventBus\Tests\App\Listener\SimpleListener;
+use Spiral\EventBus\Tests\App\Subscriber\SimpleSubscriber;
 
 final class EventDispatcherTest extends TestCase
 {
@@ -45,6 +46,21 @@ final class EventDispatcherTest extends TestCase
         $queue->getConnection('test')->assertPushed(EventHandler::class, function (array $data) {
             return $data['payload']['listener'] === QueueableListener::class
                 && $data['payload']['method'] === 'handle';
+        });
+    }
+
+    public function testEventSubscriber(): void
+    {
+        $this->getDispatcher()->addSubscriber(new SimpleSubscriber());
+
+        $queue = $this->fakeQueue();
+
+        $this->getDispatcher()->dispatch(new SimpleEvent());
+
+        $queue->getConnection('sync')->assertPushed(EventHandler::class, function (array $data) {
+            return $data['payload']['listener'] instanceof SimpleSubscriber
+                && $data['payload']['method'] === 'handleEvent'
+                && $data['payload']['event'] instanceof SimpleEvent;
         });
     }
 }

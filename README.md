@@ -35,7 +35,7 @@ protected const LOAD = [
 
 ## Usage
 
-At first need create config file app/config/event-bus.php. In this file, you can specify listeners.
+At first need create config file `app/config/event-bus.php`, where you can specify listeners.
 
 ```php
 <?php
@@ -51,6 +51,18 @@ return [
         ]
     ]
 ];
+```
+
+You can also register listeners via `Spiral\EventBus\ListenerRegistryInterface`
+
+```php
+class MyPackageBootloader extends Spiral\Boot\Bootloader\Bootloader
+{
+    public function start(Spiral\EventBus\ListenerRegistryInterface $registry) 
+    {
+        $registry->addListener(UserDeleted::class, DeleteUserComments::class);
+    }
+}
 ```
 
 #### Event example

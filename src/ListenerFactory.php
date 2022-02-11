@@ -16,9 +16,23 @@ final class ListenerFactory
     ) {
     }
 
-    public function create(string $listener, string $method = 'handle'): \Closure
+    public function create(string|object $listener, string $method = 'handle'): \Closure
     {
-        return function (object $event, string $eventName) use ($listener, $method) {
+        return function (object $event) use ($listener, $method) {
+            if (\is_string($listener)) {
+                $listener = $this->container->get($listener);
+            }
+
+            $this->container->invoke(
+                [$listener, $method],
+                ['event' => $event]
+            );
+        };
+    }
+
+    public function createQueueable(string|object $listener, string $method = 'handle'): \Closure
+    {
+        return function (object $event) use ($listener, $method) {
             $connection = is_a($listener, QueueableInterface::class, true)
                 ? $this->config->getQueueConnection()
                 : 'sync';
@@ -31,7 +45,6 @@ final class ListenerFactory
                 'listener' => $listener,
                 'method' => $method,
                 'event' => $event,
-                'eventName' => $eventName,
             ]);
         };
     }

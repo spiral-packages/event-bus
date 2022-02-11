@@ -17,8 +17,12 @@ final class EventHandler implements HandlerInterface
     {
         $event = $payload['event'];
         $method = $payload['method'] ?? 'handle';
+        $listener = $payload['listener'];
 
-        $listener = $this->container->get($payload['listener']);
+        if (\is_string($listener)) {
+            $listener = $this->container->get($listener);
+        }
+
         $handler = new \ReflectionClass($listener);
 
         $this->container->invoke(

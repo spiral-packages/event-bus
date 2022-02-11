@@ -12,6 +12,7 @@ use Spiral\Config\ConfiguratorInterface;
 use Spiral\EventBus\Config\EventBusConfig;
 use Spiral\EventBus\EventDispatcher;
 use Spiral\EventBus\ListenerFactory;
+use Spiral\EventBus\ListenerRegistryInterface;
 use Spiral\EventBus\ListenersLocator;
 use Spiral\EventBus\ListenersLocatorInterface;
 use Spiral\Tokenizer\Bootloader\TokenizerBootloader;
@@ -27,6 +28,7 @@ class EventBusBootloader extends Bootloader
     ];
 
     protected const SINGLETONS = [
+        ListenerRegistryInterface::class => EventDispatcher::class,
         EventDispatcherInterface::class => EventDispatcher::class,
         PsrEventDispatcherInterface::class => EventDispatcher::class,
         EventDispatcher::class => EventDispatcher::class,
@@ -84,7 +86,7 @@ class EventBusBootloader extends Bootloader
 
         foreach ($listenersLocator->getListeners() as $event => $listeners) {
             foreach ($listeners as $listener) {
-                $dispatcher->addListener($event, $listenerFactory->create($listener[0], $listener[1]));
+                $dispatcher->addListener($event, $listenerFactory->createQueueable($listener[0], $listener[1]));
             }
         }
     }
