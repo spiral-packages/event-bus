@@ -77,6 +77,8 @@ class UserDeleted
 
 #### Listener example
 
+> Make sure to use variable `$event` for event handler method. It's required.
+
 ```php
 class DeleteUserComments 
 {
