@@ -14,26 +14,26 @@ use Spiral\EventBus\Tests\App\Event\SimpleEvent;
 use Spiral\EventBus\Tests\App\Listener\ListenerWithAttributes;
 use Spiral\EventBus\Tests\App\Listener\QueueableListener;
 use Spiral\EventBus\Tests\App\Listener\SimpleListener;
-use Spiral\Tokenizer\ClassesInterface;
+use Spiral\Tokenizer\ScopedClassesInterface;
 
 final class ListenersLocatorTest extends TestCase
 {
     private ListenersLocator $locator;
-    private MockInterface|ClassesInterface $classes;
+    private MockInterface|ScopedClassesInterface $classes;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->locator = new ListenersLocator(
-            $this->classes = $this->mockContainer(ClassesInterface::class),
+            $this->classes = $this->mockContainer(ScopedClassesInterface::class),
             new AttributeReader(),
         );
     }
 
     public function testListenersWithAttributesShouldBeFound(): void
     {
-        $this->classes->shouldReceive('getClasses')->once()->andReturn([
+        $this->classes->shouldReceive('getScopedClasses')->once()->andReturn([
             new \ReflectionClass(ListenerWithAttributes::class),
             new \ReflectionClass(QueueableListener::class),
             new \ReflectionClass(SimpleListener::class),
@@ -75,14 +75,14 @@ final class ListenersLocatorTest extends TestCase
         $this->expectException(InvalidListenerException::class);
         $this->expectErrorMessage(\sprintf('Listener method %s:handle should be public.', $class->getName()));
 
-        $this->classes->shouldReceive('getClasses')->once()->andReturn([$class]);
+        $this->classes->shouldReceive('getScopedClasses')->once()->andReturn([$class]);
 
         $this->locator->getListeners();
     }
 
     public function testListenersShouldBeRegisteredOnlyOnce(): void
     {
-        $this->classes->shouldReceive('getClasses')->once()->andReturn([
+        $this->classes->shouldReceive('getScopedClasses')->once()->andReturn([
             new \ReflectionClass(ListenerWithAttributes::class),
             new \ReflectionClass(ListenerWithAttributes::class),
         ]);

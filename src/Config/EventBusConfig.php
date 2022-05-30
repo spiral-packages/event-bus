@@ -10,7 +10,7 @@ final class EventBusConfig extends InjectableConfig
 {
     public const CONFIG = 'event-bus';
 
-    protected $config = [
+    protected array$config = [
         'queueConnection' => null,
         'discoverListeners' => true,
         'listeners' => [],

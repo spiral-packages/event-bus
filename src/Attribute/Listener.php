@@ -7,7 +7,7 @@ namespace Spiral\EventBus\Attribute;
 use Attribute;
 
 #[Attribute(Attribute::TARGET_METHOD)]
-class Listener
+final class Listener
 {
 
 }

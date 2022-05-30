@@ -11,8 +11,8 @@ use Spiral\Queue\QueueConnectionProviderInterface;
 final class ListenerFactory
 {
     public function __construct(
-        private EventBusConfig $config,
-        private Container $container
+        private readonly EventBusConfig $config,
+        private readonly Container $container
     ) {
     }
 

@@ -7,13 +7,13 @@ namespace Spiral\EventBus;
 use Spiral\Attributes\ReaderInterface;
 use Spiral\EventBus\Attribute\Listener;
 use Spiral\EventBus\Exception\InvalidListenerException;
-use Spiral\Tokenizer\ClassesInterface;
+use Spiral\Tokenizer\ScopedClassesInterface;
 
 final class ListenersLocator implements ListenersLocatorInterface
 {
     public function __construct(
-        private ClassesInterface $classes,
-        private ReaderInterface $reader
+        private readonly ScopedClassesInterface $classes,
+        private readonly ReaderInterface $reader
     ) {
     }
 
@@ -21,7 +21,7 @@ final class ListenersLocator implements ListenersLocatorInterface
     {
         $listen = [];
 
-        foreach ($this->classes->getClasses() as $class) {
+        foreach ($this->classes->getScopedClasses('events') as $class) {
             foreach ($class->getMethods() as $method) {
                 if ($this->reader->firstFunctionMetadata($method, Listener::class)) {
                     if (! $method->isPublic()) {

@@ -9,7 +9,7 @@ use Symfony\Component\EventDispatcher\EventDispatcher as BaseEventDispatcher;
 class EventDispatcher extends BaseEventDispatcher implements ListenerRegistryInterface
 {
     public function __construct(
-        private ListenerFactory $listenerFactory
+        private readonly ListenerFactory $listenerFactory
     ) {
         parent::__construct();
     }

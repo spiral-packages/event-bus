@@ -16,7 +16,7 @@ use Spiral\EventBus\ListenerRegistryInterface;
 use Spiral\EventBus\ListenersLocator;
 use Spiral\EventBus\ListenersLocatorInterface;
 use Spiral\Tokenizer\Bootloader\TokenizerBootloader;
-use Spiral\Tokenizer\ClassesInterface;
+use Spiral\Tokenizer\ScopedClassesInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class EventBusBootloader extends Bootloader
@@ -44,11 +44,12 @@ class EventBusBootloader extends Bootloader
         return static::LISTENS;
     }
 
-    public function __construct(private ConfiguratorInterface $config)
-    {
+    public function __construct(
+        private readonly ConfiguratorInterface $config
+    ) {
     }
 
-    public function boot(EnvironmentInterface $env): void
+    public function init(EnvironmentInterface $env): void
     {
         $this->config->setDefaults(
             EventBusConfig::CONFIG,
@@ -62,7 +63,7 @@ class EventBusBootloader extends Bootloader
     /**
      * @param EventDispatcher $dispatcher
      */
-    public function start(
+    public function boot(
         EventDispatcherInterface $dispatcher,
         ListenersLocatorInterface $listenersLocator,
         ListenerFactory $listenerFactory,
@@ -91,7 +92,7 @@ class EventBusBootloader extends Bootloader
         }
     }
 
-    private function initListenersLocator(ClassesInterface $classes): ListenersLocatorInterface
+    private function initListenersLocator(ScopedClassesInterface $classes): ListenersLocatorInterface
     {
         return new ListenersLocator(
             $classes,

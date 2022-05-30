@@ -9,8 +9,9 @@ use Spiral\Queue\HandlerInterface;
 
 final class EventHandler implements HandlerInterface
 {
-    public function __construct(private Container $container)
-    {
+    public function __construct(
+        private readonly Container $container
+    ) {
     }
 
     public function handle(string $name, string $id, array $payload): void

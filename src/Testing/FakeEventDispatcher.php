@@ -18,7 +18,7 @@ final class FakeEventDispatcher implements EventDispatcherInterface
     private array $events = [];
 
     public function __construct(
-        private EventDispatcherInterface $dispatcher,
+        private readonly EventDispatcherInterface $dispatcher,
         array|string $eventsToFake = []
     ) {
         $this->eventsToFake = (array)$eventsToFake;
