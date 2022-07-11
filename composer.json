@@ -18,11 +18,12 @@
   "require": {
     "php": "^8.1",
     "symfony/event-dispatcher": "^6.0",
-    "spiral/boot": "^3.0",
-    "spiral/core": "^3.0",
-    "spiral/config": "^3.0",
-    "spiral/tokenizer": "^3.0",
     "spiral/attributes": "^3.0",
+    "spiral/boot": "^3.0",
+    "spiral/config": "^3.0",
+    "spiral/core": "^3.0",
+    "spiral/hmvc": "^3.0",
+    "spiral/tokenizer": "^3.0",
     "spiral/queue": "^3.0"
   },
   "require-dev": {
@@ -48,13 +49,6 @@
     "sort-packages": true,
     "allow-plugins": {
       "spiral/composer-publish-plugin": true
-    }
-  },
-  "extra": {
-    "spiral": {
-      "bootloaders": [
-        "Spiral\\EventBus\\Bootloader\\EventBusBootloader"
-      ]
     }
   },
   "minimum-stability": "dev",
