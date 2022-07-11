@@ -10,7 +10,6 @@ use Spiral\Boot\Bootloader\Bootloader;
 use Spiral\Boot\EnvironmentInterface;
 use Spiral\Config\ConfiguratorInterface;
 use Spiral\Core\Container;
-use Spiral\Core\CoreInterceptorInterface;
 use Spiral\Core\InterceptableCore;
 use Spiral\EventBus\Config\EventBusConfig;
 use Spiral\EventBus\EventDispatchCore;
@@ -47,11 +46,20 @@ class EventBusBootloader extends Bootloader
     private function initEventDispatcher(
         ListenerFactory $listenerFactory,
         EventDispatchCore $core,
+        EventBusConfig $config,
         Container $container
     ): EventDispatcherInterface {
         $interceptableCore = new InterceptableCore($core);
-        foreach (static::INTERCEPTORS as $interceptor) {
-            $interceptableCore->addInterceptor($container->get($interceptor));
+        $interceptors = \array_unique(
+            \array_merge(static::INTERCEPTORS, $config->getInterceptors())
+        );
+
+        foreach ($interceptors as $interceptor) {
+            if (\is_string($interceptor)) {
+                $interceptor = $container->get($interceptor);
+            }
+
+            $interceptableCore->addInterceptor($interceptor);
         }
 
         return new EventDispatcher(

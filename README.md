@@ -65,6 +65,9 @@ return [
         UserDeleted::class => [
             DeleteUserComments::class,
         ]
+    ],
+    'interceptors' => [
+        BroadcastEventInterceptor::class
     ]
 ];
 ```
@@ -189,6 +192,21 @@ class EventBusBootloader extends BaseBootloader
 }
 ```
 
+or via config `app/config/event-bus.php`
+
+```php
+<?php
+
+declare(strict_types=1);
+
+return [
+    // ...
+    'interceptors' => [
+        BroadcastEventInterceptor::class
+    ]
+];
+```
+
 ```php
 namespace App\Event\Interceptor;
 
@@ -207,9 +225,9 @@ class BroadcastEventInterceptor implements \Spiral\Core\CoreInterceptorInterface
         
         $result = $core->callAction($eventName, $action, $parameters);     
         
-        if ($event instanceof ShoulBroadcastInterface) {
+        if ($event instanceof ShouldBroadcastInterface) {
             $this->broadcast->publish(
-                $event->getTopics(), 
+                $event->getBroadcasTopics(), 
                 \json_encode($event->toBroadcast())
             );
         }

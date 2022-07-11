@@ -11,9 +11,8 @@ class EventDispatchCore implements CoreInterface
 {
     /**
      * @param array{"event": object, "listeners": callable[]} $parameters
-     * @return void
      */
-    public function callAction(string $eventName, string $action, array $parameters = []): mixed
+    public function callAction(string $eventName, string $action, array $parameters = []): object
     {
         $event = $parameters['event'];
         $listeners = $parameters['listeners'];
@@ -26,5 +25,7 @@ class EventDispatchCore implements CoreInterface
             }
             $listener($event, $eventName, $this);
         }
+
+        return $event;
     }
 }
