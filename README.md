@@ -31,8 +31,23 @@ protected const LOAD = [
 ];
 ```
 
-> Note: if you are using [`spiral-packages/discoverer`](https://github.com/spiral-packages/discoverer) package
-> , you don't need to register bootloader by yourself anymore.
+or
+
+```php
+namespace App\Bootloader;
+
+use Spiral\EventBus\Bootloader\EventBusBootloader as BaseBootloader
+
+class EventBusBootloader extends BaseBootloader
+{
+    protected const LISTENS = [
+        \App\Event\UserCreated::class => [
+            \App\Listener\SendWelcomeMessageListener::class
+        ],
+        //...
+    ];
+}
+```
 
 ## Usage
 
@@ -50,6 +65,9 @@ return [
         UserDeleted::class => [
             DeleteUserComments::class,
         ]
+    ],
+    'interceptors' => [
+        BroadcastEventInterceptor::class
     ]
 ];
 ```
@@ -153,7 +171,70 @@ class UserService
         );
     }
 }
+```
 
+#### Interceptors
+
+The package provides convenient Bootloader to configure core
+interceptors `Spiral\EventBus\Bootloader\EventBusBootloader` automatically:
+
+```php
+namespace App\Bootloader;
+
+use Spiral\EventBus\Bootloader\EventBusBootloader as BaseBootloader
+
+class EventBusBootloader extends BaseBootloader
+{
+    protected const INTERCEPTORS = [
+        \App\Event\Interceptor\BroadcastEventInterceptor::class,
+        //...
+    ];
+}
+```
+
+or via config `app/config/event-bus.php`
+
+```php
+<?php
+
+declare(strict_types=1);
+
+return [
+    // ...
+    'interceptors' => [
+        BroadcastEventInterceptor::class
+    ]
+];
+```
+
+```php
+namespace App\Event\Interceptor;
+
+use Spiral\Broadcasting\BroadcastInterface;
+
+class BroadcastEventInterceptor implements \Spiral\Core\CoreInterceptorInterface
+{
+    public function __construct(
+        private BroadcastInterface $broadcast
+    ) {}
+    
+    public function process(string $eventName, string $action, array , CoreInterface $core): mixed
+    {
+        $event = $parameters['event']; // Event object
+        $listeners = $parameters['listeners']; // array of invokable listeners
+        
+        $result = $core->callAction($eventName, $action, $parameters);     
+        
+        if ($event instanceof ShouldBroadcastInterface) {
+            $this->broadcast->publish(
+                $event->getBroadcasTopics(), 
+                \json_encode($event->toBroadcast())
+            );
+        }
+        
+        return $result;
+    }
+}
 ```
 
 ## Testing
