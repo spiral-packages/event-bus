@@ -49,13 +49,6 @@
   "config": {
     "sort-packages": true
   },
-  "extra": {
-    "spiral": {
-      "bootloaders": [
-        "Spiral\\EventBus\\Bootloader\\EventBusBootloader"
-      ]
-    }
-  },
   "minimum-stability": "dev",
   "prefer-stable": true
 }

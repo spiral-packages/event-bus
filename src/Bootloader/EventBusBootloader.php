@@ -9,7 +9,11 @@ use Spiral\Attributes\AttributeReader;
 use Spiral\Boot\Bootloader\Bootloader;
 use Spiral\Boot\EnvironmentInterface;
 use Spiral\Config\ConfiguratorInterface;
+use Spiral\Core\Container;
+use Spiral\Core\CoreInterceptorInterface;
+use Spiral\Core\InterceptableCore;
 use Spiral\EventBus\Config\EventBusConfig;
+use Spiral\EventBus\EventDispatchCore;
 use Spiral\EventBus\EventDispatcher;
 use Spiral\EventBus\ListenerFactory;
 use Spiral\EventBus\ListenerRegistryInterface;
@@ -21,7 +25,11 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class EventBusBootloader extends Bootloader
 {
+    /** array<class-string, array<class-string>> */
     protected const LISTENS = [];
+
+    /** array<class-string<CoreInterceptorInterface>> */
+    protected const INTERCEPTORS = [];
 
     protected const DEPENDENCIES = [
         TokenizerBootloader::class,
@@ -31,10 +39,26 @@ class EventBusBootloader extends Bootloader
         ListenerRegistryInterface::class => EventDispatcher::class,
         EventDispatcherInterface::class => EventDispatcher::class,
         PsrEventDispatcherInterface::class => EventDispatcher::class,
-        EventDispatcher::class => EventDispatcher::class,
+        EventDispatcher::class => [self::class, 'initEventDispatcher'],
         ListenersLocatorInterface::class => ListenersLocator::class,
-        ListenersLocator::class => [self::class, 'initListenersLocator']
+        ListenersLocator::class => [self::class, 'initListenersLocator'],
     ];
+
+    private function initEventDispatcher(
+        ListenerFactory $listenerFactory,
+        EventDispatchCore $core,
+        Container $container
+    ): EventDispatcherInterface {
+        $interceptableCore = new InterceptableCore($core);
+        foreach (static::INTERCEPTORS as $interceptor) {
+            $interceptableCore->addInterceptor($container->get($interceptor));
+        }
+
+        return new EventDispatcher(
+            $listenerFactory,
+            $interceptableCore
+        );
+    }
 
     /**
      * @return array<class-string, array<class-string>>
