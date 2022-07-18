@@ -18,7 +18,7 @@
   "require": {
     "php": "^8.1",
     "symfony/event-dispatcher": "^6.0",
-    "spiral/attributes": "^3.0",
+    "spiral/attributes": "^2.8 || ^3.0",
     "spiral/boot": "^3.0",
     "spiral/config": "^3.0",
     "spiral/core": "^3.0",
