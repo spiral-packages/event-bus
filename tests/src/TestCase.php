@@ -9,8 +9,6 @@ use Spiral\Queue\Bootloader\QueueBootloader;
 
 abstract class TestCase extends \Spiral\Testing\TestCase
 {
-    use InteractsWithEvents;
-
     public function rootDirectory(): string
     {
         return __DIR__.'/../';
@@ -20,7 +18,6 @@ abstract class TestCase extends \Spiral\Testing\TestCase
     {
         return [
             ConfigurationBootloader::class,
-            QueueBootloader::class,
             EventBusBootloader::class,
         ];
     }

@@ -9,52 +9,24 @@ use Spiral\EventBus\Tests\TestCase;
 
 final class EventBusConfigTest extends TestCase
 {
-    public function testGetsListenersIfKeyNotExists()
+    public function testGetsInterceptorsWithNullValue()
+    {
+        $config = new EventBusConfig(['interceptors' => null]);
+
+        $this->assertSame([], $config->getInterceptors());
+    }
+
+    public function testGetsInterceptorsWithoutValue()
     {
         $config = new EventBusConfig([]);
 
-        $this->assertSame([], $config->getListeners());
+        $this->assertSame([], $config->getInterceptors());
     }
 
-    public function testGetsListeners()
+    public function testGetsInterceptorsWithValue()
     {
-        $config = new EventBusConfig(['listeners' => ['foo']]);
+        $config = new EventBusConfig(['interceptors' => ['foo']]);
 
-        $this->assertSame(['foo'], $config->getListeners());
-    }
-
-    public function testGetsQueueConnection()
-    {
-        $config = new EventBusConfig(['queueConnection' => 'test']);
-
-        $this->assertSame('test', $config->getQueueConnection());
-    }
-
-    public function testGetsQueueConnectionWithNullValue()
-    {
-        $config = new EventBusConfig(['queueConnection' => null]);
-
-        $this->assertNull($config->getQueueConnection());
-    }
-
-    public function testGetsQueueConnectionIfKeyNotExists()
-    {
-        $config = new EventBusConfig([]);
-
-        $this->assertNull($config->getQueueConnection());
-    }
-
-    public function testGetsDiscoverListeners()
-    {
-        $config = new EventBusConfig(['discoverListeners' => false]);
-
-        $this->assertFalse($config->discoverListeners());
-    }
-
-    public function testGetsDiscoverListenersIfKeyNotExists()
-    {
-        $config = new EventBusConfig([]);
-
-        $this->assertTrue($config->discoverListeners());
+        $this->assertSame(['foo'], $config->getInterceptors());
     }
 }

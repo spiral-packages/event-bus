@@ -1,56 +1,63 @@
 {
-  "name": "spiral-packages/event-bus",
-  "description": "A simple observer pattern implementation based on symfony event handler, allowing you to subscribe and listen for various events that occur within your application.",
-  "keywords": [
-    "spiral-packages",
-    "spiral",
-    "event-bus"
-  ],
-  "homepage": "https://github.com/spiral-packages/event-bus",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "butschster",
-      "email": "butschster@gmail.com",
-      "role": "Developer"
-    }
-  ],
-  "require": {
-    "php": "^8.1",
-    "symfony/event-dispatcher": "^6.0",
-    "spiral/attributes": "^2.8 || ^3.0",
-    "spiral/boot": "^3.0",
-    "spiral/config": "^3.0",
-    "spiral/core": "^3.0",
-    "spiral/hmvc": "^3.0",
-    "spiral/tokenizer": "^3.0",
-    "spiral/queue": "^3.0"
-  },
-  "require-dev": {
-    "spiral/testing": "^2.0",
-    "vimeo/psalm": "^4.9"
-  },
-  "autoload": {
-    "psr-4": {
-      "Spiral\\EventBus\\": "src"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Spiral\\EventBus\\Tests\\App\\": "tests/app",
-      "Spiral\\EventBus\\Tests\\": "tests/src"
-    }
-  },
-  "scripts": {
-    "test": "vendor/bin/phpunit",
-    "psalm": "vendor/bin/psalm --config=psalm.xml ./src"
-  },
-  "config": {
-    "sort-packages": true,
-    "allow-plugins": {
-      "spiral/composer-publish-plugin": true
-    }
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true
+    "name": "spiral-packages/event-bus",
+    "description": "A simple observer pattern implementation based on symfony event handler, allowing you to subscribe and listen for various events that occur within your application.",
+    "keywords": [
+        "spiral-packages",
+        "spiral",
+        "event-bus"
+    ],
+    "homepage": "https://github.com/spiral-packages/event-bus",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "butschster",
+            "email": "butschster@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "symfony/event-dispatcher": "^6.0",
+        "spiral/attributes": "^2.8 || ^3.0",
+        "spiral/boot": "^3.0",
+        "spiral/events": "^3.0",
+        "spiral/config": "^3.0",
+        "spiral/core": "^3.0",
+        "spiral/hmvc": "^3.0",
+        "spiral/tokenizer": "^3.0"
+    },
+    "require-dev": {
+        "spiral/testing": "^2.0",
+        "vimeo/psalm": "^4.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Spiral\\EventBus\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Spiral\\EventBus\\Tests\\App\\": "tests/app",
+            "Spiral\\EventBus\\Tests\\": "tests/src"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "psalm": "vendor/bin/psalm --config=psalm.xml ./src"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "spiral/composer-publish-plugin": true
+        }
+    },
+    "extra": {
+        "spiral": {
+            "bootloaders": [
+                "Spiral\\EventBus\\Bootloader\\EventBusBootloader"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
