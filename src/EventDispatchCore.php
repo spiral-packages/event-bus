@@ -14,6 +14,9 @@ class EventDispatchCore implements CoreInterface
      */
     public function callAction(string $eventName, string $action, array $parameters = []): object
     {
+        \assert(\is_object($parameters['event']));
+        \assert(\is_array($parameters['listeners']));
+
         $event = $parameters['event'];
         $listeners = $parameters['listeners'];
 

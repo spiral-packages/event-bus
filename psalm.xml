@@ -11,4 +11,22 @@
             <directory name="vendor" />
         </ignoreFiles>
     </projectFiles>
+    <issueHandlers>
+        <ParamNameMismatch>
+            <errorLevel type="suppress">
+                <file name="src/EventDispatchCore.php" />
+                <file name="src/EventDispatcher.php" />
+            </errorLevel>
+        </ParamNameMismatch>
+        <InvalidParamDefault>
+            <errorLevel type="suppress">
+                <file name="src/EventDispatchCore.php" />
+            </errorLevel>
+        </InvalidParamDefault>
+        <MoreSpecificImplementedParamType>
+            <errorLevel type="suppress">
+                <file name="src/EventDispatchCore.php" />
+            </errorLevel>
+        </MoreSpecificImplementedParamType>
+    </issueHandlers>
 </psalm>
