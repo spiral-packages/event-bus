@@ -28,6 +28,7 @@
     },
     "require-dev": {
         "spiral/testing": "^2.0",
+        "phpunit/phpunit": "^9.5",
         "vimeo/psalm": "^4.9"
     },
     "autoload": {
