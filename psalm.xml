@@ -11,16 +11,4 @@
             <directory name="vendor" />
         </ignoreFiles>
     </projectFiles>
-    <issueHandlers>
-        <UndefinedAttributeClass>
-            <errorLevel type="suppress">
-                <referencedClass name="JetBrains\PhpStorm\ExpectedValues" />
-            </errorLevel>
-        </UndefinedAttributeClass>
-        <RedundantCondition>
-            <errorLevel type="suppress">
-                <file name="src/Testing/FakeEventDispatcher.php" />
-            </errorLevel>
-        </RedundantCondition>
-    </issueHandlers>
 </psalm>
